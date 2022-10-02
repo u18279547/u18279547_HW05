@@ -1,0 +1,72 @@
+﻿@model Homework5.ViewModels.StudentViewModel
+    @using Homework5.Models
+
+<h2>Students</h2>
+
+@{
+    List<StudentClass> classNames = new List<StudentClass>();
+    classNames.Add(new StudentClass
+    {
+        Name = "",
+        className = ""
+    });
+    foreach (var student1 in Model.Students)
+    {
+
+        classNames.Add(new StudentClass
+        {
+            Name = student1.Name,
+            className = student1.Class
+        });
+    }
+}
+
+@using (Html.BeginForm("SearchStudentView", "Home", FormMethod.Post))
+{
+
+    @Html.TextBox("Name", null, new { @class = "form-control", type = "text" });
+    @Html.DropDownList("classNumber", new SelectList(classNames, "className", "className"), new { @class = "form-control" });
+
+    <button type="submit" class="btn btn-primary">Search</button>
+}
+
+<a href="@Url.Action("Index", "Home")">
+    <span class="btn btn-danger" btn-lg aria-hidden="true">Clear</span>
+</a>
+
+
+
+
+
+<hr />
+
+
+
+<table class="table">
+    <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Surname</th>
+        <th>Class</th>
+        <th>Points</th>
+        <th>Borrow Book</th>
+    </tr>
+    @foreach (var student in Model.Students)
+    {
+        <tr>
+            <td>@student.studentID</td>
+            <td>@student.Name</td>
+            <td>@student.Surname</td>
+            <td>@student.Class</td>
+            <td>@student.Point</td>
+            <td>
+                <a href="#">
+                    <span class="btn btn-primary" btn-lg aria-hidden="true">Borrow book</span>
+                </a>
+            </td>
+        </tr>
+    }
+</table>
+
+
+

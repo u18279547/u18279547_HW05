@@ -1,0 +1,99 @@
+﻿
+@model Homework5.ViewModels.BookViewModel
+@using Homework5.ViewModels
+@using Homework5.Models
+
+<h1>Books</h1>
+<hr />
+
+@{
+    List<BookType> bookType = new List<BookType>();
+    bookType.Add(new BookType
+    {
+        typeID = 0,
+        Name = ""
+    }); ;
+    foreach (var booktype in Model.BookTypes)
+    {
+
+        bookType.Add(new BookType
+        {
+            typeID = booktype.typeID,
+            Name = booktype.Name
+        });
+    }
+}
+
+@{
+    List<Author> authors = new List<Author>();
+    authors.Add(new Author
+    {
+        authorId = 0,
+        Surname = ""
+    });
+    foreach (var Author in Model.Authors)
+    {
+        authors.Add(new Author
+        {
+            authorId = Author.authorId,
+            Name = Author.Name,
+            Surname = Author.Surname
+        });
+    }
+
+}
+
+@using (Html.BeginForm("ComplexSearch", "Home", FormMethod.Post))
+{
+
+
+    @Html.TextBox("bookName", null, new { @class = "form-control", type = "text" });
+    @Html.DropDownList("type", new SelectList(bookType, "typeID", "Name"), new { @class = "form-control" });
+    @Html.DropDownList("author", new SelectList(authors, "authorId", "Surname"), new { @class = "form-control" });
+
+    <button type="submit" class="btn btn-primary">Search</button>
+}
+
+
+<a href="@Url.Action("Index", "Home")">
+    <span class="btn btn-danger" btn-lg aria-hidden="true">Clear</span>
+</a>
+
+
+
+
+
+<hr />
+
+<table class="table">
+    <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Author</th>
+        <th>Type</th>
+        <th>Page Count</th>
+        <th>Points</th>
+        <th>Status</th>
+        <th></th>
+    </tr>
+    @foreach (var book in Model.Books)
+    {
+        <tr>
+            <td>@book.bookId</td>
+            <td>@book.bookName</td>
+            <td>@Model.Authors.Single(x => x.authorId == book.authorId).Surname </td>
+            <td>@Model.BookTypes.Single(x => x.typeID == book.typeId).Name </td>
+            <td>@book.pageCount</td>
+            <td>@book.Points</td>
+            <td>@book.status</td>
+            <td>
+                <a href="@Url.Action("BookDetail", "Home", new { id = book.bookId })">
+                    <span class="btn btn-primary" btn-lg aria-hidden="true">View</span>
+                </a>
+
+
+            </td>
+        </tr>
+    }
+</table>
+

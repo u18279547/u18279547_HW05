@@ -1,0 +1,29 @@
+﻿@model Homework5.ViewModels.BorrowsViewModel
+
+<h2>@Model.Book.bookName</h2>
+<hr />
+
+<h3>#Borrows - @Model.Borrows.Count</h3>
+
+<a href="@Url.Action("StudentView", "Home", new { id = @Model.Book.bookId })">
+    <span class="btn btn-primary" btn-lg aria-hidden="true">View Students</span>
+</a>
+<table class="table">
+    <tr>
+        <th>#</th>
+        <th>Taken Date</th>
+        <th>Brought Date</th>
+        <th>Borrowed By</th>
+    </tr>
+    @foreach (var borrow in Model.Borrows)
+    {
+<tr>
+    <td>@borrow.borrowId</td>
+    <td>@borrow.takenDate</td>
+    <td>@borrow.broughtDate</td>
+    <td>@Model.Students.Single(x => x.studentID == borrow.studentId).Name </td>
+</tr>
+    }
+</table>
+
+
